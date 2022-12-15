@@ -1,0 +1,27 @@
+name: 'Custom Action Update'
+description: 'This is a Custom Action to Update the Change Request Details'
+inputs:
+  instance-url: 
+    description: 'ServiceNow Instance URL'
+    required: true
+  devops-integration-user-name:
+    description: 'Devops Integration User Name'
+    required: true
+  devops-integration-user-password:
+    description: 'Devops Integration User Password'
+    required: true
+  context-github:
+    description: 'Github Context'
+    required: true
+  change-request-number:  
+    description: 'Change Request Number to be Updated'
+    required: true
+  change-request-details:
+    description: 'The customized inputs to create change with the requested details.'
+    required: true
+outputs:
+  status: 
+    description: 'What is the status of the Update for given Change Request Number'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

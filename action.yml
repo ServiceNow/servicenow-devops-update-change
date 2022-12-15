@@ -1,4 +1,4 @@
-name: 'Custom Action Update'
+name: 'ServiceNow DevOps Update Change'
 description: 'This is a Custom Action to Update the Change Request Details'
 inputs:
   instance-url: 

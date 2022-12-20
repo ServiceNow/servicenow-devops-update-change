@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This custom action needs to be added at step level in a job to Update change-request-details at ServiceNow instance for change-request-number provided as input.",
   "main": "dist/index.js",
+  "private": false,
   "scripts": {
     "build": "ncc build src/main.js"
   },
@@ -10,15 +11,21 @@
     "type": "git",
     "url": "git+https://github.com/ServiceNow/servicenow-devops-update-change.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ 
+  "devops",
+  "servicenow",
+  "change"
+],
+  "author": "ServiceNow",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ServiceNow/servicenow-devops-update-change/issues"
   },
   "homepage": "https://github.com/ServiceNow/servicenow-devops-update-change#readme",
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "axios": "^1.2.1"
+    "@actions/core": "^1.9.1",
+    "axios": "^0.24.0",
+    "follow-redirects": "^1.15.0",
+    "@vercel/ncc": "^0.34.0"
   }
 }

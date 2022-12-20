@@ -24,6 +24,7 @@ jobs:
     - name: Compile
       run: npm run build
   UpdateChangeDetails:
+    needs: build
     runs-on: ubuntu-latest
     name: Servicenow Update Change Details
 

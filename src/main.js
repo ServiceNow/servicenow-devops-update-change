@@ -22,19 +22,19 @@ const main = async() => {
         let githubContext;
 
         if(changeRequestNumber == ""){
-            console.error("Please Provide a valid 'Change Request Number' to proceed with Update Change Request"); 
+            console.error("Please provide a valid 'Change Request Number' to proceed with Update Change Request"); 
             return;
         }
         if(instanceUrl == ""){
-            console.error("Please Provide a valid 'Instance Url' to proceed with Update Change Request"); 
+            console.error("Please provide a valid 'Instance Url' to proceed with Update Change Request"); 
             return;
         }
         if(passwd == ""){
-            console.error("Please Provide a valid 'Password' to proceed with Update Change Request"); 
+            console.error("Please provide a valid 'Password' to proceed with Update Change Request"); 
             return;
         }
         if(username == ""){
-            console.error("Please Provide a valid 'User Name' to proceed with Update Change Request"); 
+            console.error("Please provide a valid 'User Name' to proceed with Update Change Request"); 
             return;
         }
 
@@ -99,7 +99,7 @@ const main = async() => {
                 }
                 
                 if (err.response.status == 400) {
-                    let errMsg = 'ServiceNow DevOps Update Change is not Succesful.';
+                    let errMsg = 'ServiceNow DevOps Update Change is not Successful.';
                     let errMsgSuffix = ' Please provide valid inputs.';
                     let responseData = err.response.data;
                     if (responseData && responseData.error && responseData.error.message) {

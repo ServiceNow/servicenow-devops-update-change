@@ -5,10 +5,10 @@ const main = async() => {
    let status = "NOT-STARTED";
    try{
     console.log('Custom Action - UPDATE => START');    
-    const instanceUrl = core.getInput('instance-url', { required: true });
-    const username = core.getInput('devops-integration-user-name', { required: true });
-    const passwd = core.getInput('devops-integration-user-password', { required: true });
-    const changeRequestNumber = core.getInput('change-request-number', { required: true });
+    const instanceUrl = core.getInput('instance-url');
+    const username = core.getInput('devops-integration-user-name');
+    const passwd = core.getInput('devops-integration-user-password');
+    const changeRequestNumber = core.getInput('change-request-number');
     
     let changeRequestDetailsStr = core.getInput('change-request-details', { required: true });
     let githubContextStr = core.getInput('context-github', { required: true });
@@ -22,10 +22,22 @@ const main = async() => {
         let githubContext;
 
         if(changeRequestNumber == ""){
-            console.error("Please Provide a valid 'Change Request Number' to proceed with Update Change Request"); 
+            console.error("Please provide a valid 'Change Request Number' to proceed with Update Change Request"); 
             return;
         }
-    
+        if(instanceUrl == ""){
+            console.error("Please provide a valid 'Instance Url' to proceed with Update Change Request"); 
+            return;
+        }
+        if(passwd == ""){
+            console.error("Please provide a valid 'Password' to proceed with Update Change Request"); 
+            return;
+        }
+        if(username == ""){
+            console.error("Please provide a valid 'User Name' to proceed with Update Change Request"); 
+            return;
+        }
+
         try {
           changeRequestDetails = JSON.parse(changeRequestDetailsStr);
         } catch (e) {
@@ -87,7 +99,7 @@ const main = async() => {
                 }
                 
                 if (err.response.status == 400) {
-                    let errMsg = 'ServiceNow DevOps Update Change is not Succesful.';
+                    let errMsg = 'ServiceNow DevOps Update Change is not Successful.';
                     let errMsgSuffix = ' Please provide valid inputs.';
                     let responseData = err.response.data;
                     if (responseData && responseData.error && responseData.error.message) {

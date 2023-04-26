@@ -22,19 +22,19 @@ const main = async() => {
         let githubContext;
 
         if(changeRequestNumber == ""){
-            console.error("Please provide a valid 'Change Request Number' to proceed with Update Change Request"); 
+            displayErrorMsg("Please Provide a valid 'Change Request Number' to proceed with Update Change Request"); 
             return;
         }
         if(instanceUrl == ""){
-            console.error("Please provide a valid 'Instance Url' to proceed with Update Change Request"); 
+            displayErrorMsg("Please Provide a valid 'Instance Url' to proceed with Update Change Request"); 
             return;
         }
         if(passwd == ""){
-            console.error("Please provide a valid 'Password' to proceed with Update Change Request"); 
+            displayErrorMsg("Please Provide a valid 'Password' to proceed with Update Change Request"); 
             return;
         }
         if(username == ""){
-            console.error("Please provide a valid 'User Name' to proceed with Update Change Request"); 
+            displayErrorMsg("Please Provide a valid 'User Name' to proceed with Update Change Request"); 
             return;
         }
 
@@ -42,7 +42,7 @@ const main = async() => {
           changeRequestDetails = JSON.parse(changeRequestDetailsStr);
         } catch (e) {
             console.log(`Unable to parse Error occured with message ${e}`);
-            console.error("Failed parsing changeRequestDetails, please provide a valid JSON");
+            displayErrorMsg("Failed parsing changeRequestDetails, please provide a valid JSON");
             return;
         }
     
@@ -51,7 +51,7 @@ const main = async() => {
             githubContext = JSON.parse(githubContextStr);
         } catch (e) {
             console.log(`Error occured with message ${e}`);
-            console.error("Exception parsing github context");
+            displayErrorMsg("Exception parsing github context");
             return;
         }        
         const restendpoint = `${instanceUrl}/api/sn_devops/v1/devops/orchestration/changeInfo?changeRequestNumber=${changeRequestNumber}`;
@@ -70,36 +70,36 @@ const main = async() => {
             response = await axios.put(restendpoint, changeRequestDetailsStr, httpHeaders);
             if(response.data && response.data.result){
                 status = response.data.result.status;
-                console.log("Status of the Update => "+status+", and the message => "+response.data.result.message);
+                console.log('\n \x1b[1m\x1b[32m' + "Status of the Update => "+status+", and the message => "+response.data.result.message + '\x1b[0m\x1b[0m');
             }else{
                 status = "NOT SUCCESSFUL";
-                console.error('No response from ServiceNow. Please check ServiceNow logs for more details.');
+                displayErrorMsg('No response from ServiceNow. Please check ServiceNow logs for more details.');
             }
             
         } catch (err) {
             if (!err.response) {
                 status = "NOT SUCCESSFUL";
-                console.error('No response from ServiceNow. Please check ServiceNow logs for more details.');
+                displayErrorMsg('No response from ServiceNow. Please check ServiceNow logs for more details.');
             }else{
                 status = "FAILURE";
                 if (err.message.includes('ECONNREFUSED') || err.message.includes('ENOTFOUND')) {
-                    console.error('Invalid ServiceNow Instance URL. Please correct the URL and try again.');
+                    displayErrorMsg('Invalid ServiceNow Instance URL. Please correct the URL and try again.');
                 }
                 
                 if (err.message.includes('401')) {
-                    console.error('Invalid Credentials. Please correct the credentials and try again.');
+                    displayErrorMsg('Invalid Credentials. Please correct the credentials and try again.');
                 }
                     
                 if (err.message.includes('405')) {
-                    console.error('Response Code from ServiceNow is 405. Please check ServiceNow logs for more details.');
+                    displayErrorMsg('Response Code from ServiceNow is 405. Please check ServiceNow logs for more details.');
                 }
             
                 if (err.response.status == 500) {
-                    console.error('Response Code from ServiceNow is 500. Please check ServiceNow logs for more details.')
+                    displayErrorMsg('Response Code from ServiceNow is 500. Please check ServiceNow logs for more details.')
                 }
                 
                 if (err.response.status == 400) {
-                    let errMsg = 'ServiceNow DevOps Update Change is not Successful.';
+                    let errMsg = 'ServiceNow DevOps Update Change is not Succesful.';
                     let errMsgSuffix = ' Please provide valid inputs.';
                     let responseData = err.response.data;
                     if (responseData && responseData.error && responseData.error.message) {
@@ -110,7 +110,7 @@ const main = async() => {
                             errMsg = errMsg + errors[index].message + errMsgSuffix;
                         }
                     }
-                    console.error(errMsg);
+                    displayErrorMsg(errMsg);
 
                 }
             }
@@ -126,6 +126,11 @@ const main = async() => {
        core.setFailed(error.message)
    }
    core.setOutput("status",status); 
+}
+
+function displayErrorMsg(errMsg) {
+
+    console.error('\n\x1b[31m' + errMsg + '\x1b[31m');
 }
 
 main();

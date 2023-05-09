@@ -4,12 +4,18 @@ inputs:
   instance-url: 
     description: 'ServiceNow Instance URL'
     required: true
+  devops-integration-token:
+    description: 'ServiceNow Devops security token'
+    required: false
+  tool-id:
+    description: 'Orchestration Tool Id of the tool created in ServiceNow'
+    required: false
   devops-integration-user-name:
     description: 'Devops Integration User Name'
-    required: true
+    required: false
   devops-integration-user-password:
     description: 'Devops Integration User Password'
-    required: true
+    required: false
   context-github:
     description: 'Github Context'
     required: true

@@ -6,10 +6,11 @@ const main = async() => {
    try{
     console.log('Custom Action - UPDATE => START');    
     const instanceUrl = core.getInput('instance-url');
-    const username = core.getInput('devops-integration-user-name');
-    const passwd = core.getInput('devops-integration-user-password');
+    const username = core.getInput('devops-integration-user-name', { required: false });
+    const passwd = core.getInput('devops-integration-user-password', { required: false });
     const changeRequestNumber = core.getInput('change-request-number');
-    
+    const devopsIntegrationToken = core.getInput('devops-integration-token', { required: false });
+    const toolId = core.getInput('tool-id', { required: false });
     let changeRequestDetailsStr = core.getInput('change-request-details', { required: true });
     let githubContextStr = core.getInput('context-github', { required: true });
 
@@ -29,14 +30,6 @@ const main = async() => {
             displayErrorMsg("Please Provide a valid 'Instance Url' to proceed with Update Change Request"); 
             return;
         }
-        if(passwd == ""){
-            displayErrorMsg("Please Provide a valid 'Password' to proceed with Update Change Request"); 
-            return;
-        }
-        if(username == ""){
-            displayErrorMsg("Please Provide a valid 'User Name' to proceed with Update Change Request"); 
-            return;
-        }
 
         try {
           changeRequestDetails = JSON.parse(changeRequestDetailsStr);
@@ -54,19 +47,37 @@ const main = async() => {
             displayErrorMsg("Exception parsing github context");
             return;
         }        
-        const restendpoint = `${instanceUrl}/api/sn_devops/v1/devops/orchestration/changeInfo?changeRequestNumber=${changeRequestNumber}`;
-        let response;
-    
+
         try {
-            const token = `${username}:${passwd}`;
-            const encodedToken = Buffer.from(token).toString('base64');
-    
-            const defaultHeaders = {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Basic ' + `${encodedToken}`
-            };
-            let httpHeaders = { headers: defaultHeaders };
+            const endpointv1 = `${instanceUrl}/api/sn_devops/v1/devops/orchestration/changeInfo?changeRequestNumber=${changeRequestNumber}`;
+            const endpointv2 = `${instanceUrl}/api/sn_devops/v2/devops/orchestration/changeInfo?changeRequestNumber=${changeRequestNumber}`;
+            let response;
+            let httpHeaders;
+            if(!devopsIntegrationToken && !username && !passwd){
+                displayErrorMsg('Either secret token or integration username, password is needed for integration user authentication');
+                return;
+            }else if(devopsIntegrationToken){
+                const defaultHeadersv2 = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'sn_devops.DevOpsToken '+`${toolId}`+':'+`${devopsIntegrationToken}`
+                };
+                httpHeaders = { headers: defaultHeadersv2 };
+                restendpoint = endpointv2;
+            }else if(username && passwd){
+                const token = `${username}:${passwd}`;
+                const encodedToken = Buffer.from(token).toString('base64');      
+                const defaultHeadersv1 = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Basic ' + `${encodedToken}`
+                };
+                httpHeaders = { headers: defaultHeadersv1 };
+                restendpoint = endpointv1;
+            }else{
+                displayErrorMsg('For Basic Auth, Username and Password is mandatory for integration user authentication');
+                return;
+            }
             response = await axios.put(restendpoint, changeRequestDetailsStr, httpHeaders);
             if(response.data && response.data.result){
                 status = response.data.result.status;
@@ -75,7 +86,7 @@ const main = async() => {
                 status = "NOT SUCCESSFUL";
                 displayErrorMsg('No response from ServiceNow. Please check ServiceNow logs for more details.');
             }
-            
+
         } catch (err) {
             if (!err.response) {
                 status = "NOT SUCCESSFUL";

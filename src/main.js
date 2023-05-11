@@ -54,7 +54,7 @@ const main = async() => {
             let response;
             let httpHeaders;
             if(!devopsIntegrationToken && !username && !passwd){
-                core.setFailed('Either secret token or integration username, password is needed for integration user authentication');
+                displayErrorMsg('Either secret token or integration username, password is needed for integration user authentication');
                 return;
             }else if(devopsIntegrationToken){
                 const defaultHeadersv2 = {
@@ -75,7 +75,7 @@ const main = async() => {
                 httpHeaders = { headers: defaultHeadersv1 };
                 restendpoint = endpointv1;
             }else{
-                core.setFailed('For Basic Auth, Username and Password is mandatory for integration user authentication');
+                displayErrorMsg('For Basic Auth, Username and Password is mandatory for integration user authentication');
                 return;
             }
             response = await axios.put(restendpoint, changeRequestDetailsStr, httpHeaders);

@@ -37,6 +37,7 @@ jobs:
         with:
           change-request-number: 'CHG0030004'
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           context-github: ${{ toJSON(github) }}
           change-request-details: '{"state":"3","close_code":"successful", "close_notes":"Closing during Github Actions CustomActionUpdate","short_description": "Test description in Updated by Github custom Action","description":"Automated Software Deployment."}'

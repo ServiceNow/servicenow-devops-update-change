@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set Node.js 14.x
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: 14.x
 
@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Servicenow Update Change Details
-        uses: ./ 
+        uses: ServiceNow/servicenow-devops-update-change@v1.39
         id: update
         with:
           change-request-number: 'CHG0030004'

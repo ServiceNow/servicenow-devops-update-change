@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Servicenow Update Change Details
-        uses: ServiceNow/servicenow-devops-update-change@v1.39
+        uses: ServiceNow/servicenow-devops-update-change@v2.0
         id: update
         with:
           change-request-number: 'CHG0030004'

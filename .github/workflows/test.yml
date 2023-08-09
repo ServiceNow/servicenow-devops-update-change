@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Servicenow Update Change Details
-        uses: ServiceNow/servicenow-devops-update-change@v2.0
+        uses: ServiceNow/servicenow-devops-update-change@v2.0.0
         id: update
         with:
           change-request-number: 'CHG0030004'
@@ -40,6 +40,6 @@ jobs:
           devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           context-github: ${{ toJSON(github) }}
-          change-request-details: '{"state":"3","close_code":"successful", "close_notes":"Closing during Github Actions CustomActionUpdate","short_description": "Test description in Updated by Github custom Action","description":"Automated Software Deployment."}'
+          change-request-details: '{"short_description": "Test description in Updated by Github custom Action","description":"Automated Software Deployment.","close_code":"successful", "close_notes":"Closing during Github Actions CustomActionUpdate","state":"3"}'
       - name: Output of UpdateChangeDetails
         run: echo "The Status of Update Change Request Details => ${{ steps.update.outputs.status }}"

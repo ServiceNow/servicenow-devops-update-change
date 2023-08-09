@@ -42,7 +42,7 @@ deploy:
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           context-github: ${{ toJSON(github) }}
           change-request-number: 'CHG123456'
-          change-request-details: '{"setCloseCode":"true","attributes":{"short_description":"Automated Software Deployment" ,"description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed"}}'
+          change-request-details: '{"short_description":"Automated Software Deployment","description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed"}'
 ```
 ## For Basic Authentication at ServiceNow instance
 ```yaml
@@ -59,7 +59,7 @@ deploy:
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           context-github: ${{ toJSON(github) }}
           change-request-number: 'CHG123456'
-          change-request-details: '{"setCloseCode":"true","attributes":{"short_description":"Automated Software Deployment" ,"description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed"}}'
+          change-request-details: '{"short_description":"Automated Software Deployment","description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed"}'
 ```
 The values for secrets should be setup in Step 1. Secrets should be created in Step 2.
 
@@ -93,6 +93,11 @@ The change request number to identify a unique change request
 ### `change-request-details`
 
 The change details to be used for Updating the change request information identified by the specified change request number with the key-value pairs. The change details is a JSON object surrounded by curly braces _{}_ containing key-value pair separated by a comma _,_. A key-value pair consists of a key and a value separated by a colon _:_. The keys supported in key-value pair are *short_description*, *state*, *description*, *work_notes* ..so on
+
+# NOTE 
+Example: State should be specified at last in case if you are update the state of change request
+change-request-details: '{"short_description": "Test description in Updated by Github custom Action","description":"Automated Software Deployment.","close_code":"successful", "close_notes":"Closing during Github Actions CustomActionUpdate","state":"3"}'
+
 
 ## Outputs
 ### `status`

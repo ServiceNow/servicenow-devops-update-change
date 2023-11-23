@@ -5938,7 +5938,7 @@ const main = async () => {
         const instanceUrl = core.getInput('instance-url');
         const username = core.getInput('devops-integration-user-name', { required: false });
         const passwd = core.getInput('devops-integration-user-password', { required: false });
-        const changeRequestNumber = core.getInput('change-request-number', { required: false });
+        const changeRequestNumber = core.getInput('change-request-number', { required: true });
         const devopsIntegrationToken = core.getInput('devops-integration-token', { required: false });
         const toolId = core.getInput('tool-id', { required: false });
         let changeRequestDetailsStr = core.getInput('change-request-details', { required: true });

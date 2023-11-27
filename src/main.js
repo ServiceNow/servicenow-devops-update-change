@@ -8,7 +8,7 @@ const main = async () => {
         const instanceUrl = core.getInput('instance-url');
         const username = core.getInput('devops-integration-user-name', { required: false });
         const passwd = core.getInput('devops-integration-user-password', { required: false });
-        const changeRequestNumber = core.getInput('change-request-number');
+        const changeRequestNumber = core.getInput('change-request-number', { required: true });
         const devopsIntegrationToken = core.getInput('devops-integration-token', { required: false });
         const toolId = core.getInput('tool-id', { required: false });
         let changeRequestDetailsStr = core.getInput('change-request-details', { required: true });
@@ -78,7 +78,9 @@ const main = async () => {
                     core.setFailed('For Basic Auth, Username and Password is mandatory for integration user authentication');
                     return;
                 }
+                core.debug("[ServiceNow DevOps], Sending Request for Update Change, Request Header :"+JSON.stringify(httpHeaders)+", Payload :"+JSON.stringify(payload)+"\n");
                 response = await axios.put(restendpoint, changeRequestDetailsStr, httpHeaders);
+                core.debug("[ServiceNow DevOps], Receiving response for Update Change, Response :"+response+"\n");
                 if (response.data && response.data.result) {
                     status = response.data.result.status;
                     console.log('\n \x1b[1m\x1b[32m' + "Status of the Update => " + status + ", and the message => " + response.data.result.message + '\x1b[0m\x1b[0m');

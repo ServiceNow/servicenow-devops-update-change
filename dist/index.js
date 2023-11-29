@@ -6022,6 +6022,7 @@ const main = async () => {
                     core.setFailed('For Basic Auth, Username and Password is mandatory for integration user authentication');
                     return;
                 }
+                core.debug("Update change, before api call");
                 core.debug("[ServiceNow DevOps], Sending Request for Update Change, Request Header :"+JSON.stringify(httpHeaders)+", Payload :"+JSON.stringify(payload)+"\n");
                 response = await axios.put(restendpoint, changeRequestDetailsStr, httpHeaders);
                 core.debug("[ServiceNow DevOps], Receiving response for Update Change, Response :"+circularSafeStringify(response)+"\n");

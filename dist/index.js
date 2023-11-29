@@ -6023,7 +6023,7 @@ const main = async () => {
                     return;
                 }
                 core.debug("Update change, before api call");
-                core.debug("[ServiceNow DevOps], Sending Request for Update Change, Request Header :"+JSON.stringify(httpHeaders)+", Payload :"+JSON.stringify(payload)+"\n");
+                core.debug("[ServiceNow DevOps], Sending Request for Update Change, Request Header :"+JSON.stringify(httpHeaders)+"\n");
                 response = await axios.put(restendpoint, changeRequestDetailsStr, httpHeaders);
                 core.debug("[ServiceNow DevOps], Receiving response for Update Change, Response :"+circularSafeStringify(response)+"\n");
                 if (response.data && response.data.result) {

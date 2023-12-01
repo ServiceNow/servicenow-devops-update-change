@@ -5931,6 +5931,20 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(2186);
 const axios = __nccwpck_require__(6545);
 
+function circularSafeStringify(obj) {
+    const seen = new WeakSet();
+    return JSON.stringify(obj, (key, value) => {
+        if (key === '_sessionCache') return undefined;
+        if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) {
+          return '[Circular]';
+        }
+        seen.add(value);
+      }
+      return value;
+    });
+}
+
 const main = async () => {
     let status = "NOT-STARTED";
     try {
@@ -6008,9 +6022,9 @@ const main = async () => {
                     core.setFailed('For Basic Auth, Username and Password is mandatory for integration user authentication');
                     return;
                 }
-                core.debug("[ServiceNow DevOps], Sending Request for Update Change, Request Header :"+JSON.stringify(httpHeaders)+", Payload :"+JSON.stringify(payload)+"\n");
+                core.debug("[ServiceNow DevOps], Sending Request for Update Change, Request Header :"+JSON.stringify(httpHeaders)+"\n");
                 response = await axios.put(restendpoint, changeRequestDetailsStr, httpHeaders);
-                core.debug("[ServiceNow DevOps], Receiving response for Update Change, Response :"+response+"\n");
+                core.debug("[ServiceNow DevOps], Receiving response for Update Change, Response :"+circularSafeStringify(response)+"\n");
                 if (response.data && response.data.result) {
                     status = response.data.result.status;
                     console.log('\n \x1b[1m\x1b[32m' + "Status of the Update => " + status + ", and the message => " + response.data.result.message + '\x1b[0m\x1b[0m');

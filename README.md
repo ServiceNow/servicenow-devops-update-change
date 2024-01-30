@@ -35,7 +35,7 @@ deploy:
     runs-on: ubuntu-latest
     steps:     
       - name: ServiceNow Update Change
-        uses: ServiceNow/servicenow-devops-update-change@v2.0.0
+        uses: ServiceNow/servicenow-devops-update-change@v3.1.0
         with:
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
@@ -52,7 +52,7 @@ deploy:
     runs-on: ubuntu-latest
     steps:     
       - name: ServiceNow Update Change
-        uses: ServiceNow/servicenow-devops-update-change@v2.0.0
+        uses: ServiceNow/servicenow-devops-update-change@v3.1.0
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
